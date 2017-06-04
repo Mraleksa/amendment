@@ -1,59 +1,118 @@
-// This is a template for a Node.js scraper on morph.io (https://morph.io)
-
-var cheerio = require("cheerio");
-var request = require("request");
+var client = require('http-api-client');
+const fs = require('fs');
+var d3 = require("d3");
 var sqlite3 = require("sqlite3").verbose();
+var db = new sqlite3.Database("data.sqlite");
 
-function initDatabase(callback) {
-	// Set up sqlite database.
-	var db = new sqlite3.Database("data.sqlite");
-	db.serialize(function() {
-		db.run("CREATE TABLE IF NOT EXISTS data (name TEXT)");
-		callback(db);
-	});
+
+var p = 0;
+
+var formatTime = d3.timeFormat("%Y-%m-%d");
+
+var myDate = new Date();
+var dayOfMonth = myDate.getDate();
+myDate.setDate(dayOfMonth - 1);
+
+var start  = formatTime(myDate);
+console.log(start);
+
+
+var end  = formatTime(new Date());
+console.log(end);
+
+
+   
+function piv(){  
+p++;
+client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts?offset='+start})
+		.then(function (data) {
+						 
+		
+			var dataset = data.getJSON().data;
+			
+			start = data.getJSON().next_page.offset;			
+						
+			console.log(start)
+			
+			return dataset;
+		})	
+		.then(function (dataset) {	
+		
+			dataset.forEach(function(item) {
+				client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts/'+item.id})
+					.then(function (data) {
+				
+		
+
+
+var change = data.getJSON().data.changes[data.getJSON().data.changes.length-1].rationaleTypes[0];
+
+	
+
+if(change=="itemPriceVariation"){
+	
+	var tender_id = data.getJSON().data.tender_id;
+	
+	client.request({url: 'https://public.api.openprocurement.org/api/2.3/tenders/'+tender_id})
+					.then(function (data) {
+						
+				db.serialize(function() {
+
+  // Create new table
+  db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,tenderID TEXT,procuringEntity TEXT,change TEXT,numberOfBids INT,amount INT,cpv TEXT)");
+
+  
+  // Insert a new record
+  var statement = db.prepare("INSERT INTO data VALUES (?,?,?,?,?,?,?)");
+  
+  statement.run(item.dateModified,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,change,data.getJSON().data.numberOfBids,data.getJSON().data.value.amount,data.getJSON().data.items[0].classification.description);
+  
+  statement.finalize();
+});
+
+		
+						
+	/*							
+var res = "{'dateModified':'"+item.dateModified+"','tenderID':'"+data.getJSON().data.tenderID+"','procuringEntity':'"+data.getJSON().data.procuringEntity.name+"','change':'"+change+"','numberOfBids':'"+numberOfBids+"','amount':"+data.getJSON().data.value.amount+",'cpv':'"+data.getJSON().data.items[0].classification.description+"'},";
+		fs.appendFile("changes.json", res);
+						
+						*/
+						})
+						
+
+	}
+	
+
+
+	
+					})
+					.catch(function  (error) {
+						//console.log("error_detale")
+						
+					});  
+				});
+		
+		})
+		.then(function () {	
+		if (start.replace(/T.*/, "") != end) {piv ();}	
+		else {
+			console.log("STOP")
+			console.log(start.replace(/T.*/, ""))
+	
+		}		
+							
+		})
+		.catch( function (error) {
+			console.log("error")
+			piv ();
+		});   
+		
+					
+
 }
 
-function updateRow(db, value) {
-	// Insert some data.
-	var statement = db.prepare("INSERT INTO data VALUES (?)");
-	statement.run(value);
-	statement.finalize();
-}
+piv ();	
+ 
 
-function readRows(db) {
-	// Read some data.
-	db.each("SELECT rowid AS id, name FROM data", function(err, row) {
-		console.log(row.id + ": " + row.name);
-	});
-}
-
-function fetchPage(url, callback) {
-	// Use request to read in pages.
-	request(url, function (error, response, body) {
-		if (error) {
-			console.log("Error requesting page: " + error);
-			return;
-		}
-
-		callback(body);
-	});
-}
-
-function run(db) {
-	// Use request to read in pages.
-	fetchPage("https://morph.io", function (body) {
-		// Use cheerio to find things in the page with css selectors.
-		var $ = cheerio.load(body);
-
-		var elements = $("div.media-body span.p-name").each(function () {
-			var value = $(this).text().trim();
-			updateRow(db, value);
-		});
-
-		readRows(db);
-
-		db.close();
-	});
-}
-
-initDatabase(run);
+   
+//node_modules\http-api-client
