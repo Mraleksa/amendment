@@ -2,8 +2,7 @@
   "version": "0.0.1",
   "main": "scraper.js",
   "dependencies": {
-    "d3-time": "1.0.6",
-    "d3-time-format": "2.0.5",
+    "d3": "latest",
     "sqlite3": "latest",
     "http-api-client": "latest"
   },
