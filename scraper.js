@@ -58,8 +58,8 @@ if(change=="itemPriceVariation"){
 				db.serialize(function() {
 
   // Create new table
-  db.run("DELETE FROM IF NOT EXISTS data");
-  db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,tenderID TEXT,procuringEntity TEXT,change TEXT,numberOfBids INT,amount INT,cpv TEXT)");
+  //db.run("DELETE FROM data");
+  db.run("CREATE TABLE data (dateModified TEXT,tenderID TEXT,procuringEntity TEXT,change TEXT,numberOfBids INT,amount INT,cpv TEXT)");
 
   
   // Insert a new record
