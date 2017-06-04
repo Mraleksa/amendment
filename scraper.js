@@ -1,13 +1,13 @@
 var client = require('http-api-client');
 const fs = require('fs');
-var d3 = require("d3");
+//var d3 = require("d3");
 var sqlite3 = require("sqlite3").verbose();
 var db = new sqlite3.Database("data.sqlite");
 
 
 var p = 0;
 
-var formatTime = d3.timeFormat("%Y-%m-%d");
+//var formatTime = d3.timeFormat("%Y-%m-%d");
 
 var myDate = new Date();
 var dayOfMonth = myDate.getDate();
