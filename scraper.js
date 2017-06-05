@@ -11,7 +11,7 @@ var formatTime = d3.timeFormat("%Y-%m-%d");
 
 var myDate = new Date();
 var dayOfMonth = myDate.getDate();
-myDate.setDate(dayOfMonth - 2);
+myDate.setDate(dayOfMonth - 3);
 
 var start  = formatTime(myDate);
 console.log(start);
@@ -81,7 +81,7 @@ var res = "{'dateModified':'"+item.dateModified+"','tenderID':'"+data.getJSON().
 						
 
 	}
-					else {console.log("no data")}
+					//else {console.log("no data")}
 	
 
 
