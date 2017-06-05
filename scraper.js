@@ -63,18 +63,18 @@ if(change=="itemPriceVariation"){
 	
 	})
 	.catch(function  (error) {
-						console.log("error_detale1")				
+						//console.log("error_detale1")				
 					});  
 }
 //////////SQLite//////////////	
 					})
 					.catch(function  (error) {
-						console.log("error_detale2")				
+						//console.log("error_detale2")				
 					});  
 			});	
 		})
 		.catch(function  (error) {
-						console.log("error_detale3")				
+						//console.log("error_detale3")				
 					})
 		.then(function () {	
 			if (start.replace(/T.*/, "") != end) {piv ();}	
