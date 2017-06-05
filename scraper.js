@@ -32,21 +32,34 @@ client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts?o
 
 var change = data.getJSON().data.changes[data.getJSON().data.changes.length-1].rationaleTypes[0];
 if(change=="itemPriceVariation"){
-	var change0 = data.getJSON().data.changes[0].date;
+	
+	//var contractId = data.getJSON().data.id;
+	var lotIdContracts = data.getJSON().data.items[0].relatedLot;
+	
+	
+	//var change0 = data.getJSON().data.changes[0].date;
 	var dateSigned = data.getJSON().data.dateSigned;
 	var amount = data.getJSON().data.value.amount;
 	var tender_id = data.getJSON().data.tender_id;
 	
 	client.request({url: 'https://public.api.openprocurement.org/api/2.3/tenders/'+tender_id})
 					.then(function (data) {
-							
+		
+		var lotIdTenders = data.getJSON().data.lots[0].id;
+		if(lotIdContracts=lotIdTenders){var save = (data.getJSON().data.lots[0].value.amount-amount)/data.getJSON().data.lots[0].value.amount*100}
+		//console.log(save)
+		
+		
 	db.serialize(function() {	
-	db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,dateSigned TEXT,change0 TEXT,tenderID TEXT,procuringEntity TEXT,numberOfBids INT,amount INT,cpv TEXT)");
+	db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,dateSigned TEXT,save TEXT,tenderID TEXT,procuringEntity TEXT,numberOfBids INT,amount INT,cpv TEXT)");
 	var statement = db.prepare("INSERT INTO data VALUES (?,?,?,?,?,?,?,?)");
-  	//console.log(tender_id);
-	statement.run(item.dateModified,dateSigned,change0,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,data.getJSON().data.numberOfBids,amount,data.getJSON().data.items[0].classification.description);
+  	
+	statement.run(item.dateModified,dateSigned,save,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,data.getJSON().data.numberOfBids,amount,data.getJSON().data.items[0].classification.description);
+	//console.log(change);
 	statement.finalize();
 	});
+
+
 	
 	})		
 }
