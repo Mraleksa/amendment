@@ -34,8 +34,8 @@ var change = data.getJSON().data.changes[data.getJSON().data.changes.length-1].r
 if(change=="itemPriceVariation"){
 	var change0 = data.getJSON().data.changes[0].dateSigned;
 	var dateSigned = data.getJSON().data.dateSigned;
-	var tender_id = data.getJSON().data.tender_id;
 	var amount = data.getJSON().data.value.amount;
+	var tender_id = data.getJSON().data.tender_id;
 	
 	client.request({url: 'https://public.api.openprocurement.org/api/2.3/tenders/'+tender_id})
 					.then(function (data) {
@@ -43,7 +43,8 @@ if(change=="itemPriceVariation"){
 	db.serialize(function() {	
 	db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,dateSigned TEXT,change0 TEXT,tenderID TEXT,procuringEntity TEXT,numberOfBids INT,amount INT,cpv TEXT)");
 	var statement = db.prepare("INSERT INTO data VALUES (?,?,?,?,?,?,?,?)");
-  	statement.run(item.dateModified,dateSigned,change0,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,data.getJSON().data.numberOfBids,amount,data.getJSON().data.items[0].classification.description);
+  	console.log(change0);
+		statement.run(item.dateModified,dateSigned,change0,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,data.getJSON().data.numberOfBids,amount,data.getJSON().data.items[0].classification.description);
 	statement.finalize();
 	});
 	
@@ -60,7 +61,7 @@ if(change=="itemPriceVariation"){
 			if (start.replace(/T.*/, "") != end) {piv ();}	
 			else {
 				console.log("STOP")
-				console.log(start.replace(/T.*/, ""))
+				//console.log(start.replace(/T.*/, ""))
 			}							
 		})
 		.catch( function (error) {
