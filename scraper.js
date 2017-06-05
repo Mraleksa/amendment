@@ -45,9 +45,12 @@ if(change=="itemPriceVariation"){
 	client.request({url: 'https://public.api.openprocurement.org/api/2.3/tenders/'+tender_id})
 					.then(function (data) {
 		
-		var lotIdTenders = data.getJSON().data.lots[0].id;
-		if(lotIdContracts=lotIdTenders){var save = (data.getJSON().data.lots[0].value.amount-amount)/data.getJSON().data.lots[0].value.amount*100}
-		//console.log(save)
+	for (var i = 1; i <= data.getJSON().data.lots.length; i++) {
+			if(lotIdContracts==data.getJSON().data.lots[data.getJSON().data.lots.length-(i)].id){var startAmount =  data.getJSON().data.lots[data.getJSON().data.lots.length-(i)].value.amount};
+			
+	    }
+		var save = (startAmount-amount)/startAmount*100;
+		console.log(save);
 		
 		
 	db.serialize(function() {	
