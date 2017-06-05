@@ -54,7 +54,7 @@ if(change=="itemPriceVariation"){
 	
 	client.request({url: 'https://public.api.openprocurement.org/api/2.3/tenders/'+tender_id})
 					.then(function (data) {
-		console.log(data.getJSON().data.dateSigned)				
+				
 db.serialize(function() {
 	
   db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,dateSigned TEXT,tenderID TEXT,procuringEntity TEXT,numberOfBids INT,amount INT,cpv TEXT)");
