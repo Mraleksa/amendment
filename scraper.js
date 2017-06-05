@@ -56,7 +56,7 @@ if(change=="itemPriceVariation"){
 					.then(function (data) {
 						
 db.serialize(function() {
-
+console.log(change)	
   db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,dateSigned TEXT,tenderID TEXT,procuringEntity TEXT,suppliers TEXT,numberOfBids INT,amount INT,cpv TEXT)");
 
   //data.getJSON().data.dateSigned когда заключен контракт
