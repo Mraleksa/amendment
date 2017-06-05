@@ -46,8 +46,7 @@ client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts?o
 
 
 var change = data.getJSON().data.changes[data.getJSON().data.changes.length-1].rationaleTypes[0];
-
-	
+console.log(change)			
 
 if(change=="itemPriceVariation"){
 	
@@ -71,20 +70,10 @@ db.serialize(function() {
   statement.finalize();
 });
 		
-						
-	/*							
-var res = "{'dateModified':'"+item.dateModified+"','tenderID':'"+data.getJSON().data.tenderID+"','procuringEntity':'"+data.getJSON().data.procuringEntity.name+"','change':'"+change+"','numberOfBids':'"+numberOfBids+"','amount':"+data.getJSON().data.value.amount+",'cpv':'"+data.getJSON().data.items[0].classification.description+"'},";
-		fs.appendFile("changes.json", res);
-						
-						*/
-						})
+})
 						
 
-	}
-					//else {console.log("no data")}
-	
-
-
+}
 	
 					})
 					.catch(function  (error) {
