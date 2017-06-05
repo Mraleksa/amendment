@@ -32,7 +32,7 @@ client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts?o
 
 var change = data.getJSON().data.changes[data.getJSON().data.changes.length-1].rationaleTypes[0];
 if(change=="itemPriceVariation"){
-	var change0 = data.getJSON().data.changes[0].dateSigned;
+	var change0 = data.getJSON().data.changes[0].date;
 	var dateSigned = data.getJSON().data.dateSigned;
 	var amount = data.getJSON().data.value.amount;
 	var tender_id = data.getJSON().data.tender_id;
