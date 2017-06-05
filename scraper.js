@@ -3,12 +3,12 @@ var d3 = require("d3");
 var sqlite3 = require("sqlite3").verbose();
 var db = new sqlite3.Database("data.sqlite");
 
-//db.run("DELETE FROM data");
+db.run("DELETE FROM data");
 var p = 0;
 var formatTime = d3.timeFormat("%Y-%m-%d");
 var myDate = new Date();
 var dayOfMonth = myDate.getDate();
-myDate.setDate(dayOfMonth - 2);
+myDate.setDate(dayOfMonth - 3);
 var start  = formatTime(myDate);
 console.log(start);
 var end  = formatTime(new Date());
