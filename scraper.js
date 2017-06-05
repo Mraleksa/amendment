@@ -3,12 +3,12 @@ var d3 = require("d3");
 var sqlite3 = require("sqlite3").verbose();
 var db = new sqlite3.Database("data.sqlite");
 
-db.run("DELETE FROM data");
+//db.run("DELETE FROM data");
 var p = 0;
 var formatTime = d3.timeFormat("%Y-%m-%d");
 var myDate = new Date();
 var dayOfMonth = myDate.getDate();
-myDate.setDate(dayOfMonth - 3);
+myDate.setDate(dayOfMonth - 2);
 var start  = formatTime(myDate);
 console.log(start);
 var end  = formatTime(new Date());
@@ -29,8 +29,10 @@ client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts?o
 				client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts/'+item.id})
 					.then(function (data) {	
 //////////SQLite//////////////
+
 var change = data.getJSON().data.changes[data.getJSON().data.changes.length-1].rationaleTypes[0];
 if(change=="itemPriceVariation"){
+	var change0 = data.getJSON().data.changes[0].dateSigned;
 	var dateSigned = data.getJSON().data.dateSigned;
 	var tender_id = data.getJSON().data.tender_id;
 	var amount = data.getJSON().data.value.amount;
@@ -39,9 +41,9 @@ if(change=="itemPriceVariation"){
 					.then(function (data) {
 							
 	db.serialize(function() {	
-	db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,dateSigned TEXT,tenderID TEXT,procuringEntity TEXT,numberOfBids INT,amount INT,cpv TEXT)");
-	var statement = db.prepare("INSERT INTO data VALUES (?,?,?,?,?,?,?)");
-  	statement.run(item.dateModified,dateSigned,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,data.getJSON().data.numberOfBids,amount,data.getJSON().data.items[0].classification.description);
+	db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,change0 TEXT,dateSigned TEXT,tenderID TEXT,procuringEntity TEXT,numberOfBids INT,amount INT,cpv TEXT)");
+	var statement = db.prepare("INSERT INTO data VALUES (?,?,?,?,?,?,?,?)");
+  	statement.run(item.dateModified,dateSigned,change0,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,data.getJSON().data.numberOfBids,amount,data.getJSON().data.items[0].classification.description);
 	statement.finalize();
 	});
 	
