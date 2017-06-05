@@ -33,11 +33,9 @@ client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts?o
 var change = data.getJSON().data.changes[data.getJSON().data.changes.length-1].rationaleTypes[0];
 if(change=="itemPriceVariation"){
 	
-	//var contractId = data.getJSON().data.id;
-	//var lotIdContracts = data.getJSON().data.items[0].relatedLot;
+	var lotIdContracts = data.getJSON().data.items[0].relatedLot;
 	
 	
-	//var change0 = data.getJSON().data.changes[0].date;
 	var dateSigned = data.getJSON().data.dateSigned;
 	var amount = data.getJSON().data.value.amount;
 	var tender_id = data.getJSON().data.tender_id;
@@ -45,12 +43,11 @@ if(change=="itemPriceVariation"){
 	client.request({url: 'https://public.api.openprocurement.org/api/2.3/tenders/'+tender_id})
 					.then(function (data) {
 		
-	//for (var i = 1; i <= data.getJSON().data.lots.length; i++) {
-		//	if(lotIdContracts==data.getJSON().data.lots[data.getJSON().data.lots.length-(i)].id){var startAmount =  data.getJSON().data.lots[data.getJSON().data.lots.length-(i)].value.amount};
+	for (var i = 1; i <= data.getJSON().data.lots.length; i++) {
+			if(lotIdContracts==data.getJSON().data.lots[data.getJSON().data.lots.length-(i)].id){var startAmount =  data.getJSON().data.lots[data.getJSON().data.lots.length-(i)].value.amount};
 			
-	 //  }
-	//var save = (startAmount-amount)/startAmount*100;
-	var save = 5;
+	   }
+	var save = (startAmount-amount)/startAmount*100;
 		
 		
 	db.serialize(function() {	
@@ -73,6 +70,9 @@ if(change=="itemPriceVariation"){
 					});  
 			});	
 		})
+		.catch(function  (error) {
+						console.log("error_detale")				
+					})
 		.then(function () {	
 			if (start.replace(/T.*/, "") != end) {piv ();}	
 			else {
