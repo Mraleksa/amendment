@@ -4,7 +4,7 @@ var sqlite3 = require("sqlite3").verbose();
 var db = new sqlite3.Database("data.sqlite");
 
 //db.run("DELETE FROM data");
-var p = 0;
+var p = 0; 
 var formatTime = d3.timeFormat("%Y-%m-%d");
 var myDate = new Date();
 var dayOfMonth = myDate.getDate();
