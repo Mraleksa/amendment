@@ -46,7 +46,7 @@ client.request({url: 'https://public.api.openprocurement.org/api/2.3/contracts?o
 
 
 var change = data.getJSON().data.changes[data.getJSON().data.changes.length-1].rationaleTypes[0];
-console.log(change)			
+//console.log(change)			
 
 if(change=="itemPriceVariation"){
 	
