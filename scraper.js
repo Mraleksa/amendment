@@ -8,7 +8,7 @@ var p = 0;
 var formatTime = d3.timeFormat("%Y-%m-%d");
 var myDate = new Date();
 var dayOfMonth = myDate.getDate();
-myDate.setDate(dayOfMonth - 3);
+myDate.setDate(dayOfMonth - 4);
 var start  = formatTime(myDate);
 console.log(start);
 var end  = formatTime(new Date());
