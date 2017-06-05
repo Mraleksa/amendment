@@ -8,7 +8,7 @@ var p = 0;
 var formatTime = d3.timeFormat("%Y-%m-%d");
 var myDate = new Date();
 var dayOfMonth = myDate.getDate();
-myDate.setDate(dayOfMonth - 3);
+myDate.setDate(dayOfMonth - 2);
 var start  = formatTime(myDate);
 console.log(start);
 var end  = formatTime(new Date());
@@ -43,7 +43,7 @@ if(change=="itemPriceVariation"){
 	db.serialize(function() {	
 	db.run("CREATE TABLE IF NOT EXISTS data (dateModified TEXT,dateSigned TEXT,change0 TEXT,tenderID TEXT,procuringEntity TEXT,numberOfBids INT,amount INT,cpv TEXT)");
 	var statement = db.prepare("INSERT INTO data VALUES (?,?,?,?,?,?,?,?)");
-  	console.log(tender_id);
+  	//console.log(tender_id);
 	statement.run(item.dateModified,dateSigned,change0,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,data.getJSON().data.numberOfBids,amount,data.getJSON().data.items[0].classification.description);
 	statement.finalize();
 	});
