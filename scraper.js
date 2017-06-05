@@ -81,6 +81,7 @@ var res = "{'dateModified':'"+item.dateModified+"','tenderID':'"+data.getJSON().
 						
 
 	}
+					else {console.log("no data")}
 	
 
 
