@@ -67,7 +67,7 @@ db.serialize(function() {
   var statement = db.prepare("INSERT INTO data VALUES (?,?,?,?,?,?,?,?)");
   
   statement.run(item.dateModified,data.getJSON().data.dateSigned,data.getJSON().data.tenderID,data.getJSON().data.procuringEntity.name,data.getJSON().data.suppliers.name,data.getJSON().data.numberOfBids,data.getJSON().data.value.amount,data.getJSON().data.items[0].classification.description);
-  
+  console.log(item.dateModified)
   statement.finalize();
 });
 		
