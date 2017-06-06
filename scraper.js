@@ -49,7 +49,7 @@ if(change=="itemPriceVariation"){
 		
 	if(data.getJSON().data.lots==undefined){
 	startAmount = data.getJSON().data.value.amount;
-	console.log(startAmount)
+	//console.log(startAmount)
 	
 	}
 	else {
@@ -59,7 +59,7 @@ if(change=="itemPriceVariation"){
 			};			
 	   }
 	   
-	console.log(startAmount)
+	//console.log(startAmount)
 	}
 
 
