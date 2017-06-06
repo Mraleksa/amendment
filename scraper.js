@@ -46,7 +46,7 @@ if(change=="itemPriceVariation"){
 	//for (var i = 1; i <= data.getJSON().data.lots.length; i++) {
 	//		if(lotIdContracts==data.getJSON().data.lots[data.getJSON().data.lots.length-(i)].id){var startAmount =  data.getJSON().data.lots[data.getJSON().data.lots.length-(i)].value.amount};
 			
-	   }
+	 //  }
 	//var save = (startAmount-amount)/startAmount*100;
 		var save = 100;
 		
