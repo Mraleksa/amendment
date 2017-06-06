@@ -92,7 +92,10 @@ if(change=="itemPriceVariation"){
 						//console.log("error_detale3")				
 					})
 		.then(function () {	
-			if (start.replace(/T.*/, "") != end) {piv ();}	
+			if (start.replace(/T.*/, "") != end) {
+				//piv ();
+				setTimeout(function() {piv ();},5000);
+			}	
 			else {
 				console.log("STOP")
 				//console.log(start.replace(/T.*/, ""))
