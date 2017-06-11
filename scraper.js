@@ -94,7 +94,7 @@ if(change=="itemPriceVariation"){
 		.then(function () {	
 			if (start.replace(/T.*/, "") != end) {
 				//piv ();
-				setTimeout(function() {piv ();},5000);
+				setTimeout(function() {piv ();},10000);
 			}	
 			else {
 				console.log("STOP")
